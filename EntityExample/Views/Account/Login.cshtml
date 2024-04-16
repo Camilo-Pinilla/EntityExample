@@ -1,0 +1,15 @@
+﻿@model EntityExample.Controllers.Account.AccountController;
+
+<form class="w-50" method="post" asp-action="SignIn" asp-controller="Account" >  
+	<div class="mb-3">
+		<label asp-for="Input.Email" class="form-label">Email address</label>
+		<input asp-for="Input.Email" class="form-control" placeholder="Email address" />
+	</div>
+	<div class="mb-3">
+		<label asp-for="Input.Password" class="form-label">Password</label>
+		<input asp-for="Input.Password" class="form-control" placeholder="Password" />
+	</div>
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Login</button>
+	</div>
+</form>

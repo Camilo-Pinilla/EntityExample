@@ -1,0 +1,115 @@
+﻿@model IEnumerable<EntityExample.Models.Contacts>; 
+@inject Microsoft.AspNetCore.Identity.UserManager<User> UserManager;
+@inject Microsoft.AspNetCore.Identity.SignInManager<User> SignInManager;
+@using EntityExample.Models;
+
+@{
+	ViewData["Title"] = "Index";
+	var user = await UserManager.GetUserAsync(User);
+	var role = await UserManager.GetRolesAsync(user);
+	string email = user?.Email;
+}
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Address)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.City)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.EmailAddress)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			@if (role[0] == UserRoles.Admin.ToString() || role[0] == UserRoles.Manager.ToString())
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Address)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.City)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.EmailAddress)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Status)
+					</td>
+
+
+					@if (role[0] == UserRoles.Admin.ToString())
+					{
+						<td>
+							<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+							<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						</td>
+					}
+					else
+					{
+						<td>
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+						</td>
+					}
+				</tr>
+			}
+			else if ((email == item.EmailAddress && item.Status.ToString() == "Submitted") || item.Status.ToString() == "Approved")
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Address)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.City)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.EmailAddress)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Status)
+					</td>
+
+
+					@if (email == item.EmailAddress)
+					{
+						<td>
+							<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+							<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+						</td>
+					}
+					else
+					{
+						<td>
+							<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+						</td>
+					}
+				</tr>
+			}
+
+		}
+	</tbody>
+</table>

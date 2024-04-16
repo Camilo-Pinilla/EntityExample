@@ -1,0 +1,22 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<User> SignInManager;
+@inject Microsoft.AspNetCore.Identity.UserManager<User> UserManager;
+
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+@{
+	if (SignInManager.IsSignedIn(User))
+	{
+		<a asp-action="Index" asp-controller="Contacts">Go to Contacts</a>
+	}
+	else
+	{
+
+		<div class="text-center">
+			<h1 class="display-4">Welcome</h1>
+			<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+		</div>
+	}
+}
+
